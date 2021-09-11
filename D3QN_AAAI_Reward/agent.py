@@ -179,6 +179,12 @@ class ReplayBuffer:
         """Add a new experience to memory."""
         e = self.experience(state, action, reward, next_state, done)
         self.memory.append(e)
+        
+        
+    def popleft(self):
+        """retutn the 1st experience."""
+        return self.memory.popleft()
+    
 
     def sample(self):
         """Randomly sample a batch of experiences from memory."""
