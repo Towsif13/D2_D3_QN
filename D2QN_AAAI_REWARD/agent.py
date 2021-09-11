@@ -56,6 +56,7 @@ class Agent():
         self.lenmem1 = 0
         self.lenmem2 = 0
         self.criterion = nn.MSELoss()
+        self.counter = 1000
 
     def step(self, state, action, reward, next_state, done):
         # Save experience in replay memory
