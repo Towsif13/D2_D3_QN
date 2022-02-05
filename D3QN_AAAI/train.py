@@ -11,7 +11,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Env select')
 parser.add_argument('-env', type=str, help='lunar / mount',
-                    choices=['lunar', 'mount'])
+                    choices=['lunar', 'mount', 'cheetah'])
 args = parser.parse_args()
 
 if args.env == 'lunar':
@@ -20,13 +20,33 @@ if args.env == 'lunar':
 elif args.env == 'mount':
     print('MountainCar environment selected')
     env = gym.make('MountainCar-v0')
+elif args.env == 'cheetah':
+    print('HalfCheetah environment selected')
+    env = gym.make('HalfCheetah-v2')
 
 
 env.seed(0)
-print(env.action_space.n)
-print(env.observation_space.shape[0])
-agent = Agent(state_size=env.observation_space.shape[0],
-              action_size=env.action_space.n, seed=0)
+agent = Agent(state_size = 17, action_size = 6, seed=0)
+
+
+# parser = argparse.ArgumentParser(description='Env select')
+# parser.add_argument('-env', type=str, help='lunar / mount',
+#                     choices=['lunar', 'mount'])
+# args = parser.parse_args()
+
+# if args.env == 'lunar':
+#     print('LunarLander environment selected')
+#     env = gym.make('LunarLander-v2')
+# elif args.env == 'mount':
+#     print('MountainCar environment selected')
+#     env = gym.make('MountainCar-v0')
+
+
+# env.seed(0)
+# print(env.action_space.n)
+# print(env.observation_space.shape[0])
+# agent = Agent(state_size=env.observation_space.shape[0],
+#               action_size=env.action_space.n, seed=0)
 
 n_episodes = 10_000
 max_t = 200
