@@ -10,23 +10,53 @@ import time
 import argparse
 
 parser = argparse.ArgumentParser(description='Env select')
-parser.add_argument('-env', type=str, help='lunar / mount',
-                    choices=['lunar', 'mount'])
+parser.add_argument('-env', type=str, help='lunar / mount / ant / cheetah / hopper / walker / humanoid',
+                    choices=['lunar', 'mount', 'cheetah', 'ant', 'hopper', 'walker', 'humanoid'])
+
+parser.add_argument('-seed', type=int, help='enter seed value')
+
 args = parser.parse_args()
 
 if args.env == 'lunar':
     print('LunarLander environment selected')
     env = gym.make('LunarLander-v2')
+
 elif args.env == 'mount':
     print('MountainCar environment selected')
     env = gym.make('MountainCar-v0')
 
+elif args.env == 'ant':
+    print('Ant environment selected')
+    env = gym.make('Ant-v2')
 
-env.seed(0)
-print(env.action_space.n)
-print(env.observation_space.shape[0])
-agent = Agent(state_size=env.observation_space.shape[0],
-              action_size=env.action_space.n, seed=0)
+elif args.env == 'cheetah':
+    print('HalfCheetah environment selected')
+    env = gym.make('HalfCheetah-v2')
+
+elif args.env == 'hopper':
+    print('Hopper environment selected')
+    env = gym.make('Hopper-v2')
+
+elif args.env == 'walker':
+    print('Walker environment selected')
+    env = gym.make('Walker2d-v2')
+
+elif args.env == 'humanoid':
+    print('Humanoid environment selected')
+    env = gym.make('Humanoid-v2')
+
+# env.seed(0)
+print(f'Seed value: {args.seed}')
+env.seed(args.seed)
+
+print('State size: ', env.observation_space.shape[0])
+print('Action size: ', env.action_space.shape[0])
+
+#agent = Agent(state_size=env.observation_space.shape[0],
+#              action_size=env.action_space.n, seed=0)
+
+agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0)
+
 
 n_episodes = 10_000
 max_t = 200
@@ -82,7 +112,7 @@ def train_agent(agent, env, eps_start=eps_start, eps_decay=eps_decay, eps_end=ep
         if np.mean(scores_window) >= max_score:
             max_score = np.mean(scores_window)
             torch.save(agent.qnetwork_local.state_dict(),
-                       'checkpoint_d2qn_'+str(args.env)+'.pth')
+                       'checkpoint_d2qn_r-50_'+str(args.env)+'_'+str(args.seed)+'.pth')
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
     return scores
@@ -93,7 +123,7 @@ scores_ddqn = train_agent(agent, env)
 end_time = time.time()
 
 scores_ddqn_np = np.array(scores_ddqn)
-np.savetxt("scores_d2qn_loss"+str(args.env)+".txt", scores_ddqn_np)
+np.savetxt("scores_d2qn_loss_r-50_"+str(args.env)+"_"+str(args.seed)+".txt", scores_ddqn_np)
 
 
 def convert(seconds):
@@ -114,7 +144,7 @@ print(train_time)
 train_info_dictionary = {'algorithm': 'D2QN', 'env': args.env, 'eps_start': eps_start, 'eps_end': eps_end,
                          'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time}
 
-train_info_file = open('train_info_loss'+str(args.env)+'.json', 'w')
+train_info_file = open('train_info_loss_r-50_'+str(args.env)+'_'+str(args.seed)+'.json', 'w')
 json.dump(train_info_dictionary, train_info_file)
 train_info_file.close()
 
@@ -133,5 +163,5 @@ ax = fig.add_subplot(111)
 plt.plot(np.arange(len(scores_ma_ddqn)), scores_ma_ddqn)
 plt.ylabel('Score')
 plt.xlabel('Episode')
-plt.savefig('graph_loss'+str(args.env)+'.png')
+plt.savefig('graph_loss_r-50_'+str(args.env)+'_'+str(args.seed)+'.png')
 plt.show()
