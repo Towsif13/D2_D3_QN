@@ -22,7 +22,7 @@ elif args.env == 'mount':
     env = gym.make('MountainCar-v0')
 elif args.env == 'cheetah':
     print('HalfCheetah environment selected')
-    env = gym.make('HalfCheetah-v2')
+    env = gym.make('Ant-v2')
 
 
 env.seed(0)
@@ -43,7 +43,7 @@ agent = Agent(state_size = 17, action_size = 6, seed=0)
 
 
 # env.seed(0)
-# print(env.action_space.n)
+print(env.action_space[1])
 # print(env.observation_space.shape[0])
 # agent = Agent(state_size=env.observation_space.shape[0],
 #               action_size=env.action_space.n, seed=0)
