@@ -57,11 +57,11 @@ print('Action size: ', env.action_space.shape[0])
 
 agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0)
 
-n_episodes = 10_000
+n_episodes = 10_0000
 max_t = 200
 eps_start = 1.0
 eps_end = 0.01
-eps_decay = 0.9995
+eps_decay = 0.999995
 
 
 def train_agent(agent, env, eps_start=eps_start, eps_decay=eps_decay, eps_end=eps_end, n_episodes=n_episodes, max_t=max_t):
