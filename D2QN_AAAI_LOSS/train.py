@@ -15,6 +15,10 @@ parser.add_argument('-env', type=str, help='lunar / mount / ant / cheetah / hopp
 
 parser.add_argument('-seed', type=int, help='enter seed value')
 
+parser.add_argument('-l', type=int, help='enter loss value')
+
+parser.add_argument('-c', type=int, help='enter counter value')
+
 args = parser.parse_args()
 
 if args.env == 'lunar':
@@ -47,6 +51,9 @@ elif args.env == 'humanoid':
 
 # env.seed(0)
 print(f'Seed value: {args.seed}')
+print(f'Loss value: {args.l}')
+print(f'Counter value: {args.c}')
+exit()
 env.seed(args.seed)
 
 print('State size: ', env.observation_space.shape[0])
@@ -55,7 +62,7 @@ print('Action size: ', env.action_space.shape[0])
 #agent = Agent(state_size=env.observation_space.shape[0],
 #              action_size=env.action_space.n, seed=0)
 
-agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0)
+agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0, l=args.l, c=args.c)
 
 
 n_episodes = 10_000
