@@ -53,7 +53,7 @@ elif args.env == 'humanoid':
 print(f'Seed value: {args.seed}')
 print(f'Loss value: {args.l}')
 print(f'Counter value: {args.c}')
-exit()
+
 env.seed(args.seed)
 
 print('State size: ', env.observation_space.shape[0])
@@ -151,7 +151,7 @@ print(train_time)
 train_info_dictionary = {'algorithm': 'D2QN', 'env': args.env, 'eps_start': eps_start, 'eps_end': eps_end,
                          'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time, 'loss':args.l, 'counter':args.c}
 
-train_info_file = open('train_info_loss_'str(args.l)+'_'+str(args.c)+'_'+str(args.env)+'_'+str(args.seed)+'.json', 'w')
+train_info_file = open('train_info_loss_'+str(args.l)+'_'+str(args.c)+'_'+str(args.env)+'_'+str(args.seed)+'.json', 'w')
 json.dump(train_info_dictionary, train_info_file)
 train_info_file.close()
 
