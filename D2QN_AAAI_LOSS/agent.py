@@ -23,7 +23,7 @@ alpha_rate=0.995
 
 class Agent():
 
-    def __init__(self, state_size, action_size, seed):
+    def __init__(self, state_size, action_size, seed, l, c):
         
         self.state_size = state_size
         self.action_size = action_size
@@ -43,15 +43,17 @@ class Agent():
         self.lenmem1 = 0
         self.lenmem2 = 0
     
-        ap = argparse.ArgumentParser()
-        ap.add_argument("-l","--loss", required=True,
-	        help="path to input loss threshold", type=int)
-        ap.add_argument("-c","--counter", required=True,
-	        help="path to input pop counter", type=int)
-        args = vars(ap.parse_args())
-        #args = ap.parse_args(argv)
-        self.loss_ = args["loss"]
-        self.counter = args["counter"]
+#         ap = argparse.ArgumentParser()
+#         ap.add_argument("-l","--loss", required=True,
+# 	        help="path to input loss threshold", type=int)
+#         ap.add_argument("-c","--counter", required=True,
+# 	        help="path to input pop counter", type=int)
+#         args = vars(ap.parse_args())
+#         #args = ap.parse_args(argv)
+#         self.loss_ = args["loss"]
+#         self.counter = args["counter"]
+        self.loss_ = l
+        self.counter = c
 
 
     def step(self, state, action, reward, next_state, done):
