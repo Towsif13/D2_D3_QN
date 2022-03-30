@@ -1,0 +1,1 @@
+{"algorithm": "D2QN", "env": "cheetah", "eps_start": 1.0, "eps_end": 0.01, "eps_decay": 0.9995, "episodes": 10000, "train_time": "Execution time: 2 hours : 18 minutes : 57 seconds", "loss": 5, "counter": 1000}
