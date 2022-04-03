@@ -15,6 +15,10 @@ parser.add_argument('-env', type=str, help='lunar / mount / ant / cheetah / hopp
 
 parser.add_argument('-seed', type=int, help='enter seed value')
 
+parser.add_argument('-r', type=int, help='enter reward value')
+
+parser.add_argument('-c', type=int, help='enter counter value')
+
 args = parser.parse_args()
 
 if args.env == 'lunar':
@@ -47,6 +51,9 @@ elif args.env == 'humanoid':
 
 # env.seed(0)
 print(f'Seed value: {args.seed}')
+print(f'Reward value: {args.r}')
+print(f'Counter value: {args.c}')
+
 env.seed(args.seed)
 
 print('State size: ', env.observation_space.shape[0])
@@ -55,7 +62,7 @@ print('Action size: ', env.action_space.shape[0])
 #agent = Agent(state_size=env.observation_space.shape[0],
 #              action_size=env.action_space.n, seed=0)
 
-agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0)
+agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0, r=args.r, c=args.c)
 
 
 n_episodes = 10_000
@@ -112,7 +119,7 @@ def train_agent(agent, env, eps_start=eps_start, eps_decay=eps_decay, eps_end=ep
         if np.mean(scores_window) >= max_score:
             max_score = np.mean(scores_window)
             torch.save(agent.qnetwork_local.state_dict(),
-                       'checkpoint_d2qn_r-50_'+str(args.env)+'_'+str(args.seed)+'.pth')
+                       'checkpoint_d2qn_'+str(args.r)+'_'+str(args.c)+'_'+str(args.env)+'_'+str(args.seed)+'.pth')
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
     return scores
@@ -123,7 +130,7 @@ scores_ddqn = train_agent(agent, env)
 end_time = time.time()
 
 scores_ddqn_np = np.array(scores_ddqn)
-np.savetxt("scores_d2qn_reward-50_"+str(args.env)+'_'+str(args.seed)+".txt", scores_ddqn_np)
+np.savetxt("scores_d2qn_reward_"+str(args.r)+"_"+str(args.c)+"_"+str(args.env)+"_"+str(args.seed)+".txt", scores_ddqn_np)
 
 
 def convert(seconds):
@@ -142,9 +149,9 @@ print(train_time)
 
 
 train_info_dictionary = {'algorithm': 'D2QN', 'env': args.env, 'eps_start': eps_start, 'eps_end': eps_end,
-                         'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time}
+                         'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time, 'reward':args.r, 'counter':args.c}
 
-train_info_file = open('train_info_reward_-50_'+str(args.env)+'_'+str(args.seed)+'.json', 'w')
+train_info_file = open('train_info_reward_'+str(args.r)+'_'+str(args.c)+'_'+str(args.env)+'_'+str(args.seed)+'.json', 'w')
 json.dump(train_info_dictionary, train_info_file)
 train_info_file.close()
 
@@ -163,5 +170,5 @@ ax = fig.add_subplot(111)
 plt.plot(np.arange(len(scores_ma_ddqn)), scores_ma_ddqn)
 plt.ylabel('Score')
 plt.xlabel('Episode')
-plt.savefig('graph_reward_r-50_'+str(args.env)+'_'+str(args.seed)+'.png')
+plt.savefig('graph_reward_'+str(args.r)+'_'+str(args.c)+'_'+str(args.env)+'_'+str(args.seed)+'.png')
 plt.show()
