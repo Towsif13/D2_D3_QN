@@ -10,10 +10,10 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 BUFFER_SIZE = int(1e5)  # replay buffer size
-BATCH_SIZE = 64         # minibatch size
+BATCH_SIZE = 16         # minibatch size
 GAMMA = 0.99            # discount factor
-TAU = 0.01              # for soft update of target parameters
-LR = 0.001               # learning rate
+TAU = 0.001              # for soft update of target parameters
+LR = 0.0005               # learning rate
 UPDATE_EVERY = 4        # how often to update the network
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
