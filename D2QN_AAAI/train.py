@@ -57,7 +57,7 @@ print('Action size: ', env.action_space.shape[0])
 
 agent = Agent(state_size = env.observation_space.shape[0], action_size = env.action_space.shape[0], seed=0)
 
-n_episodes = 10_0000
+n_episodes = 10_000
 max_t = 200
 eps_start = 1.0
 eps_end = 0.01
@@ -162,5 +162,5 @@ ax = fig.add_subplot(111)
 plt.plot(np.arange(len(scores_ma_ddqn)), scores_ma_ddqn)
 plt.ylabel('Score')
 plt.xlabel('Episode')
-plt.savefig('graph_'+str(args.env)+'_'+str(args.seed)+'.png')
+plt.savefig('graph_'+str(args.env)+'_'+str(args.seed)+'.pdf')
 plt.show()
